@@ -29,7 +29,7 @@ git remote add origin https://github.com/Edson-Edwin/noise.git
 git push -u origin main
 ```
 
-The repository for this project is [Edson-Edwin/noise](https://github.com/Edson-Edwin/noise). If you already have this repository, skip the repository creation and initial upload steps. Use GitHub's supported browser/credential-manager sign-in if prompted, not your account password as a Git password. Keep `Dockerfile` and `render.yaml` at the repository root. If you upload through the GitHub website instead, include the hidden `.github`, `.gitignore` and `.dockerignore` files too.
+The repository for this project is [Edson-Edwin/noise](https://github.com/Edson-Edwin/noise). If you already have this repository, skip the repository creation and initial upload steps. Use GitHub's supported browser/credential-manager sign-in if prompted, not your account password as a Git password. Keep `Dockerfile` and `render.yaml` at the repository root. If you upload through the GitHub website instead, include the hidden `.gitignore` and `.dockerignore` files too.
 
 ## 3. Create the Blueprint
 

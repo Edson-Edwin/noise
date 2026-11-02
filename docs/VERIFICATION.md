@@ -19,7 +19,7 @@ Prepared 2 November 2026. The library sound monitoring dashboard has been redesi
 
 - ESP32 compile: official Core 3.3.12 package downloads repeatedly stopped before installation completed, so firmware compilation was not verified in this environment. Use Arduino IDE Verify before uploading.
 - Physical ESP32 upload, wiring, sensor threshold, buzzer behavior, Wi-Fi reconnects and end-to-end HTTPS uploads must be tested with the actual board.
-- The real Render hostname and root CA certificate cannot be configured until the user creates GitHub/Render accounts and deploys.
+- The real Render hostname and root CA certificate cannot be configured until the user connects the GitHub repository to Render and deploys.
 - Render billing, provisioning, public HTTPS, production backups and cloud recovery have not been tested. The source and deployment configuration are prepared; the project is not hosted in the cloud yet.
 - No load/soak test or multi-device operation is claimed. The application targets one device and one web worker.
 
