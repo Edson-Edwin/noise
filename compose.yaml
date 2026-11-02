@@ -1,0 +1,64 @@
+name: noise-monitor
+x-app: &app
+  image: noise-monitor:local
+  build: .
+  env_file: .env
+  init: true
+  read_only: true
+  tmpfs:
+    - /tmp:size=16m,mode=1777
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  logging:
+    driver: json-file
+    options:
+      max-size: 10m
+      max-file: '3'
+services:
+  db:
+    image: postgres:17-bookworm
+    environment:
+      POSTGRES_USER: noise
+      POSTGRES_DB: noise_monitor
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run python3 scripts/init_env.py first}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U noise -d noise_monitor']
+      interval: 5s
+      timeout: 3s
+      retries: 15
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+  migrate:
+    <<: *app
+    command: [alembic, upgrade, head]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: 'no'
+  api:
+    <<: *app
+    ports:
+      - '127.0.0.1:8000:8000'
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    mem_limit: 512m
+    cpus: 1
+  retention:
+    <<: *app
+    command: [python, -m, scripts.retention, --loop]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    healthcheck:
+      disable: true
+volumes:
+  postgres_data:
